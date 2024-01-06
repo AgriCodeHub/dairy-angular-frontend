@@ -1,1 +1,40 @@
-<p>registration works!</p>
+<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="fill">
+    <mat-label>Username</mat-label>
+    <input matInput formControlName="username" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>First Name</mat-label>
+    <input matInput formControlName="first_name" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Last Name</mat-label>
+    <input matInput formControlName="last_name" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Email</mat-label>
+    <input matInput type="email" formControlName="email" required>
+  </mat-form-field>
+
+    <mat-form-field appearance="fill">
+    <mat-label>Sex</mat-label>
+    <mat-select formControlName="sex" required>
+      <mat-option value="Male">Male</mat-option>
+      <mat-option value="Female">Female</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Phone Number</mat-label>
+    <input matInput formControlName="phone_number" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+  <mat-label>Password</mat-label>
+  <input matInput type="password" formControlName="password" required>
+</mat-form-field>
+  <button mat-raised-button type="submit" [disabled]="!registrationForm.valid">Register</button>
+</form>
