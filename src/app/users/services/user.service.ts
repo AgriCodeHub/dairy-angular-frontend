@@ -31,13 +31,23 @@ export class AuthService {
       throw error.error;
     }
   }
-
   async login(usernameOrEmail: string, password: string): Promise<UserProfile> {
     try {
-      const response = await firstValueFrom(this.http.post<UserProfile>(this.loginUrl, { usernameOrEmail, password }));
-      return response;
+      const response = await firstValueFrom(this.http.post<{ user: UserProfile; token: string }>(this.loginUrl, { usernameOrEmail, password }));
+    
+      const { user, token } = response;
+
+      if (token) {
+        this.storeToken(token); 
+      }
+      return user;
     } catch (error: any) {
       throw error.error;
     }
+  }
+
+  private storeToken(token: string): void {
+    // Store the token securely in local storage
+    localStorage.setItem('authToken', token);
   }
 }

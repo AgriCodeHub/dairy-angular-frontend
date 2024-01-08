@@ -14,9 +14,9 @@ describe('LoginComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule, // Importing HttpClientTestingModule for testing HTTP requests
-        BrowserAnimationsModule // Importing BrowserAnimationsModule for animations
+        BrowserAnimationsModule, // Importing BrowserAnimationsModule for animations
+        LoginComponent
       ],
-      declarations: [LoginComponent], // Declaring the component to be tested
       providers: [AuthService] // Providing AuthService for dependency injection
     }).compileComponents();
 
