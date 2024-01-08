@@ -4,13 +4,13 @@ import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-
   private registerUrl = `${environment.apiUrl}/auth/users/`;
+  private loginUrl = `${environment.apiUrl}/auth/login/`;
+
 
   private http = inject(HttpClient);
 
@@ -22,12 +22,32 @@ export class AuthService {
    *          If the registration fails, the response will contain an error message.
    * @throws If an error occurs during registration.
    */
+
   async register(userData: RegistrationData): Promise<UserProfile> {
     try {
       const response = await firstValueFrom(this.http.post<UserProfile>(this.registerUrl, userData));
       return response;
-    } catch (Error: any) {
-      throw Error.error;
+    } catch (error: any) {
+      throw error.error;
     }
+  }
+  async login(usernameOrEmail: string, password: string): Promise<UserProfile> {
+    try {
+      const response = await firstValueFrom(this.http.post<{ user: UserProfile; token: string }>(this.loginUrl, { usernameOrEmail, password }));
+    
+      const { user, token } = response;
+
+      if (token) {
+        this.storeToken(token); 
+      }
+      return user;
+    } catch (error: any) {
+      throw error.error;
+    }
+  }
+
+  private storeToken(token: string): void {
+    // Store the token securely in local storage
+    localStorage.setItem('authToken', token);
   }
 }
